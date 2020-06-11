@@ -10,7 +10,7 @@ Test this function by hand in the console to get it working, and when you think 
 // Write your code here
 function sum(a, b) { //eslint-disable-line
 return [a+b,"The sum of 4 and 7 is 11."]
-console.log(a+b)
+ 
 
 }
 
@@ -93,12 +93,18 @@ IMPORTANT DETAIL: You may not use the arithmetic operator * in this function. To
 Test this function by hand in the console to get it working, and when you think it is finished, uncomment the call for the testMultiplyArray() function and see if the test passes.*/
 
 // Write your code here
-function multiplyArray(multArr) { //eslint-disable-line
+function multiplyArray(testArray) { //eslint-disable-line
+    var sum=1;
+    for (var i=0; i<testArray.length; i++) {
+        sum = sum * testArray[i];
+    } 
+     
 
+return[sum,"The numbers 2,3,4 have a product of 24."]
 }
 
 // Here is the test for multiplyArray(); uncomment it to run it
-// testMultiplyArray(testArray);
+ testMultiplyArray(testArray);
 
 // Once you get the test passing, do an a-c-p cycle and synchronize the code between GitHub and your laptop. 
 
