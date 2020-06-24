@@ -7,37 +7,104 @@ table.addEventListener('click', removeItemFromCart);
 var cart;
 
 function loadCart() {
-  var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+  // localData stores a cartItems array
+  // for us to use Cart methods, we have to pass this array thru the Cart constructor
+
+  var cartItems = JSON.parse(localStorage.getItem('localData')) || [];
+
   cart = new Cart(cartItems);
+  
 }
 
 // Make magic happen --- re-pull the Cart, clear out the screen and re-draw it
 function renderCart() {
+
   loadCart();
   clearCart();
   showCart();
+  updateCounter();
+}
+
+// copy pasted from catalog.js
+function updateCounter() {
+  var span = document.getElementById('itemCount');
+  span.textContent = ` (${cart.items.length})`;
+
 }
 
 // TODO: Remove all of the rows (tr) in the cart table (tbody)
-function clearCart() {}
+function clearCart() {
+  
+  var table = document.getElementsByTagName('tbody')[0];
 
+  while (table.hasChildNodes() === true) {
+    var tableRow = table.firstChild;
+    table.removeChild(tableRow);
+  }
+
+}
+ 
 // TODO: Fill in the <tr>'s under the <tbody> for each item in the cart
 function showCart() {
 
-  // TODO: Find the table body
+  // get the table
+  var table = document.getElementsByTagName('tbody')[0];
+  // console.log('table, ', table);
 
-  // TODO: Iterate over the items in the cart
-  // TODO: Create a TR
-  // TODO: Create a TD for the delete link, quantity,  and the item
-  // TODO: Add the TR to the TBODY and each of the TD's to the TR
+  for (var i = 0; i < cart.items.length; i++){
+
+    var trEl = document.createElement('tr');
+    
+    // create elements
+    var tdElOne = document.createElement('td');
+    var tdElTwo = document.createElement('td');
+    var tdElThree = document.createElement('td');
+
+    // give them data
+    // delete link
+    tdElOne.textContent = 'delete';
+
+    // quantity
+    tdElTwo.textContent = cart.items[i].quantity;
+
+    // item name
+    tdElThree.textContent = cart.items[i].product.name;
+
+    // add to row
+    trEl.appendChild(tdElOne);
+    trEl.appendChild(tdElTwo);
+    trEl.appendChild(tdElThree);
+
+    //append to table
+    table.appendChild(trEl);
+
+  }
 
 }
 
+
 function removeItemFromCart(event) {
 
-  // TODO: When a delete link is clicked, use cart.removeItem to remove the correct item
-  // TODO: Save the cart back to local storage
-  // TODO: Re-draw the cart table
+  // remove item from cart
+  var clickedElement = event.target;
+  var clickedName = clickedElement.nextSibling.nextSibling.textContent;
+
+  // for each item
+  for (var i = 0; i < cart.items.length; i++){
+    
+    // if it is the removed item
+    if (cart.items[i].product.name === clickedName){
+      // remove it
+      var selectedItem = cart.items[i];
+      cart.removeItem(selectedItem);
+    }
+  }
+
+  // update local storage
+  cart.saveToLocalStorage();
+  
+  renderCart();
 
 }
 

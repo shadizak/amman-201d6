@@ -1,1 +1,9 @@
 /* TODO: Make it awesome */
+
+* , h1, body, main, head, th, td, tr, li, ul{
+    border: 1px solid red;
+}
+
+body {
+    padding: 30px;
+}
